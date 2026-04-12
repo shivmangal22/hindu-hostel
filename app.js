@@ -1,6 +1,7 @@
 const express = require("express");
 const path = require("path");
 const app = express();
+app.set("trust proxy", 1);
 const mongoose = require("mongoose");
 const session = require("express-session");
 const MongoStore = require("connect-mongo");
@@ -23,19 +24,26 @@ app.set("view engine", "ejs");
 app.set("views", path.join(__dirname, "views"));
 app.use(express.urlencoded({ extended: true }));
 app.use(express.static(path.join(__dirname, "public")));
-
 app.use(
-  session({
-    secret: process.env.SESSION_SECRET || "hindu-hostel-secret",
-    resave: false,
-    saveUninitialized: false,
-    cookie: {
-      maxAge: 1000 * 60 * 60 * 24,
-      secure: process.env.NODE_ENV === "production",
-      httpOnly: true,
-    },
+  helmet({
+    contentSecurityPolicy: false,
   }),
 );
+app.use(compression());
+
+const sessionMiddleware = session({
+  secret: process.env.SESSION_SECRET,
+  resave: false,
+  saveUninitialized: false,
+  cookie: {
+    secure: false,
+    httpOnly: true,
+    maxAge: 24 * 60 * 60 * 1000,
+  },
+});
+
+app.use(sessionMiddleware);
+
 app.use(flash());
 app.use(passport.initialize());
 app.use(passport.session());
@@ -81,13 +89,6 @@ passport.use(
     },
   ),
 );
-
-app.use(
-  helmet({
-    contentSecurityPolicy: false,
-  }),
-);
-app.use(compression());
 
 app.use((req, res, next) => {
   res.locals.success_msg = req.flash("success_msg") || [];
