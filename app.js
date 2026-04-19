@@ -32,6 +32,10 @@ app.use(
 );
 app.use(compression());
 
+app.get("/health-check", (req, res) => {
+  res.status(200).send("System Operational");
+});
+
 app.use(
   session({
     secret: process.env.SESSION_SECRET || "hindu-hostel-secret",
@@ -41,6 +45,7 @@ app.use(
       mongoUrl: process.env.MONGO_URI,
       ttl: 14 * 24 * 60 * 60,
       autoRemove: "native",
+      touchAfter: 24 * 3600,
     }),
     cookie: {
       maxAge: 1000 * 60 * 60 * 24,
@@ -113,7 +118,7 @@ app.use("/admin", adminRouter);
 
 app.use((req, res) => {
   res.status(404).render("404", {
-    title: "404 | Lost in Hostel",
+    title: "Lost in Hostel",
     hostelName: "Hindu Hostel, Prayagraj",
   });
 });

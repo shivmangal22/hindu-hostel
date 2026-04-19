@@ -16,6 +16,7 @@ const Scholar = require("../models/Scholar");
 const Essential = require("../models/Essential");
 const cloudinary = require("cloudinary").v2;
 const { CloudinaryStorage } = require("multer-storage-cloudinary");
+const Review = require("../models/Review");
 
 cloudinary.config({
   cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
@@ -41,7 +42,7 @@ router.post("/essentials/new", isLoggedIn, isAdmin, async (req, res) => {
   try {
     const newService = new Essential(req.body);
     await newService.save();
-    req.flash("success_msg", "New essential service added to the directory.");
+    req.flash("success_msg", "New essential service added successfully!");
     res.redirect("/helpdesk");
   } catch (err) {
     req.flash("error_msg", "Failed to add service.");
@@ -51,12 +52,12 @@ router.post("/essentials/new", isLoggedIn, isAdmin, async (req, res) => {
 
 router.post("/essentials/delete/:id", isLoggedIn, isAdmin, async (req, res) => {
   await Essential.findByIdAndDelete(req.params.id);
-  req.flash("success_msg", "Service removed from directory.");
+  req.flash("success_msg", "Service removed!");
   res.redirect("/helpdesk");
 });
 
 router.get("/scholars/new", isLoggedIn, isAdmin, (req, res) => {
-  res.render("admin/new-scholar", { title: "Add Eminent Scholar" });
+  res.render("admin/new-scholar", { title: "Add Scholar" });
 });
 
 router.post("/scholars/new", isLoggedIn, isAdmin, async (req, res) => {
@@ -71,7 +72,7 @@ router.post("/scholars/new", isLoggedIn, isAdmin, async (req, res) => {
     });
     await newScholar.save();
     req.flash("success_msg", `${name} added to the Hall of Eminence.`);
-    res.redirect("/history");
+    res.redirect("/scholars");
   } catch (err) {
     req.flash("error_msg", "Failed to add scholar record.");
     res.redirect("back");
@@ -80,8 +81,8 @@ router.post("/scholars/new", isLoggedIn, isAdmin, async (req, res) => {
 
 router.post("/scholars/delete/:id", isLoggedIn, isAdmin, async (req, res) => {
   await Scholar.findByIdAndDelete(req.params.id);
-  req.flash("success_msg", "Scholar removed from archives.");
-  res.redirect("/history");
+  req.flash("success_msg", "Scholar removed from history.");
+  res.redirect("/scholars");
 });
 
 router.post("/announcements/new", isLoggedIn, isAdmin, async (req, res) => {
@@ -96,7 +97,7 @@ router.post("/announcements/new", isLoggedIn, isAdmin, async (req, res) => {
 
     await newNotice.save();
 
-    req.flash("success_msg", `${category} announcement has been broadcasted.`);
+    req.flash("success_msg", `${category} announcement has been broadcasted!`);
     res.redirect("/admin/dashboard");
   } catch (err) {
     console.error("Broadcast Error:", err);
@@ -112,21 +113,48 @@ router.post(
   async (req, res) => {
     try {
       await Announcement.findByIdAndDelete(req.params.id);
-      req.flash(
-        "success_msg",
-        "Announcement retracted from the Bulletin Board.",
-      );
+      req.flash("success_msg", "Announcement deleted from the Bulletin Board!");
       res.redirect("/");
     } catch (err) {
       console.error("Deletion Error:", err);
-      req.flash("error_msg", "Failed to retract announcement.");
+      req.flash("error_msg", "Failed to delete announcement.");
       res.redirect("/");
     }
   },
 );
+router.get("/reviews", isLoggedIn, isAdmin, async (req, res) => {
+  try {
+    let reviews = await Review.find().populate("user").sort({ createdAt: -1 });
+    if (req.user && (req.user.role === "admin" || req.user.role === "warden")) {
+      reviews = await Review.find().populate("user").sort({ createdAt: -1 });
+    }
+    res.render("admin/reviews", {
+      user: req.user,
+      reviews: reviews,
+      title: "Reviews",
+    });
+  } catch (err) {
+    console.error("Admin Reviews Error:", err);
+    res.status(500).send("Internal Server Error");
+  }
+});
+
+router.post("/reviews/delete/:id", isLoggedIn, isAdmin, async (req, res) => {
+  try {
+    const { id } = req.params;
+    await Review.findByIdAndDelete(id);
+
+    req.flash("success_msg", "Review deleted.");
+    res.redirect("/admin/reviews");
+  } catch (err) {
+    console.error("DELETE REVIEW ERROR:", err);
+    req.flash("error_msg", "Failed to remove the record.");
+    res.redirect("back");
+  }
+});
 
 router.get("/resources/new", isLoggedIn, isAdmin, (req, res) => {
-  res.render("admin/new-resource", { title: "Dispatch Academic Material" });
+  res.render("admin/new-resource", { title: "Upload Academic Material" });
 });
 
 const parseLinks = (data) => {
@@ -150,11 +178,11 @@ router.post("/resources/new", isLoggedIn, isAdmin, async (req, res) => {
     });
 
     await newResource.save();
-    req.flash("success_msg", `Subject: ${subject} added to the Vault.`);
+    req.flash("success_msg", `${subject} added to the Vault.`);
     res.redirect("/admin/dashboard");
   } catch (err) {
     console.error(err);
-    req.flash("error_msg", "Failed to archive subject material.");
+    req.flash("error_msg", "Failed to add subject material!");
     res.redirect("back");
   }
 });
@@ -210,7 +238,7 @@ router.post("/resources/delete/:id", isLoggedIn, isAdmin, async (req, res) => {
 });
 
 router.get("/events/new", isLoggedIn, isWarden, (req, res) => {
-  res.render("admin/new-event", { title: "New Chronicle Entry" });
+  res.render("admin/new-event", { title: "New Event Entry" });
 });
 
 router.post(
@@ -233,7 +261,7 @@ router.post(
       });
 
       await newEvent.save();
-      req.flash("success_msg", "Event archived permanently in the Cloud.");
+      req.flash("success_msg", "Event added successfully!");
       res.redirect("/hostel-events");
     } catch (error) {
       req.flash("error_msg", `Upload Failed: ${error.message}`);
@@ -244,7 +272,7 @@ router.post(
 
 router.get("/events/edit/:id", isLoggedIn, isAdmin, async (req, res) => {
   const event = await Event.findById(req.params.id);
-  res.render("admin/edit-event", { title: "Edit Chronicle", event });
+  res.render("admin/edit-event", { title: "Edit event", event });
 });
 
 router.post("/events/edit/:id", isLoggedIn, isAdmin, async (req, res) => {
@@ -258,7 +286,7 @@ router.post("/events/edit/:id", isLoggedIn, isAdmin, async (req, res) => {
         ? chiefGuests.split(",").map((g) => g.trim())
         : [],
     });
-    req.flash("success_msg", "Chronicle updated.");
+    req.flash("success_msg", "Updated successfully.");
     res.redirect("/hostel-events");
   } catch (err) {
     res.redirect("back");
@@ -275,7 +303,7 @@ router.post("/events/delete/:id", isLoggedIn, isAdmin, async (req, res) => {
     }
 
     await Event.findByIdAndDelete(req.params.id);
-    req.flash("success_msg", "Event and Cloud media purged.");
+    req.flash("success_msg", "Event removed!.");
     res.redirect("/hostel-events");
   } catch (err) {
     res.redirect("/hostel-events");
@@ -354,7 +382,7 @@ router.post("/remove-role/:id", isLoggedIn, isWarden, async (req, res) => {
     }
 
     await User.findByIdAndUpdate(req.params.id, { role: "student" });
-    req.flash("success_msg", "Admin privileges revoked.");
+    req.flash("success_msg", "Admin privileges removed.");
     res.redirect("/admin/manage-admins");
   } catch (err) {
     res.redirect("/admin/manage-admins");
@@ -368,7 +396,7 @@ router.post("/update-role", isWarden, async (req, res) => {
     if (adminId === currentUserId.toString() && newRole !== "warden") {
       req.flash(
         "error_msg",
-        "Security Protocol: You cannot revoke your own Warden status from this desk.",
+        "Security Protocol: You cannot remove your own Warden status!",
       );
       return res.redirect("/admin/dashboard");
     }
@@ -487,7 +515,7 @@ router.post("/register-student", isAdmin, async (req, res) => {
 router.post("/remove-resident/:id", isLoggedIn, isWarden, async (req, res) => {
   try {
     await User.findByIdAndDelete(req.params.id);
-    req.flash("success_msg", "Resident record purged from the registry.");
+    req.flash("success_msg", "Resident record deleted from the registry.");
     res.redirect("/admin/dashboard");
   } catch (err) {
     req.flash("error_msg", "Failed to remove resident.");
@@ -502,7 +530,7 @@ router.post("/change-password", isLoggedIn, async (req, res) => {
 
     const isMatch = await bcrypt.compare(currentPassword, user.password);
     if (!isMatch) {
-      req.flash("error_msg", "Current password does not match our records.");
+      req.flash("error_msg", "Something went wrong!");
       return res.redirect("back");
     }
 

@@ -82,3 +82,26 @@ tr.cursor-pointer:active {
   background-color: #f3f4f6;
   transform: scale(0.998);
 }
+
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+body {
+  -webkit-tap-highlight-color: transparent;
+  -webkit-touch-callout: none;
+  user-select: none;
+  overscroll-behavior-y: contain;
+}
+
+input,
+textarea,
+.selectable-text {
+  user-select: text;
+}

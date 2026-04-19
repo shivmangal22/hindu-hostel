@@ -3,6 +3,7 @@ const router = express.Router();
 const { isLoggedIn } = require("../middleware/auth");
 const Complaint = require("../models/Complaint");
 const bcrypt = require("bcrypt");
+const Review = require("../models/Review");
 
 router.get("/profile", isLoggedIn, (req, res) => {
   res.render("student/profile", {
@@ -21,7 +22,7 @@ router.post("/update-password", isLoggedIn, async (req, res) => {
 
     const isMatch = await bcrypt.compare(oldPassword, req.user.password);
     if (!isMatch) {
-      req.flash("error_msg", "Current password incorrect.");
+      req.flash("error_msg", "Something went wrong!");
       return res.redirect("/student/profile");
     }
 
@@ -32,6 +33,23 @@ router.post("/update-password", isLoggedIn, async (req, res) => {
     res.redirect("/student/profile");
   } catch (err) {
     res.status(500).send("Server Error");
+  }
+});
+
+router.post("/feedback/submit", isLoggedIn, async (req, res) => {
+  try {
+    const newReview = new Review({
+      user: req.user._id,
+      content: req.body.content,
+      rating: req.body.rating,
+    });
+    await newReview.save();
+    req.flash("success_msg", "Thank you. Your feedback has been recorded.");
+    res.redirect("/");
+  } catch (err) {
+    console.log(`${err.message}`);
+    req.flash("error_msg", `Failed to submit feedback.`);
+    res.redirect("/");
   }
 });
 
@@ -62,7 +80,7 @@ router.post("/complaints/new", isLoggedIn, async (req, res) => {
       description,
     });
     await newComplaint.save();
-    req.flash("success_msg", "Complaint lodged successfully!");
+    req.flash("success_msg", "Complaint filed successfully!");
     res.redirect("/student/dashboard");
   } catch (err) {
     res.status(500).send("Error filing complaint.");

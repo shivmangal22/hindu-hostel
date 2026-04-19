@@ -3,7 +3,7 @@
         <%- include('partials/flash') %>
 
             <main class="min-h-screen bg-zinc-950 text-stone-50 pb-20 font-serif overflow-x-hidden">
-                <section class="relative bg-zinc-900 py-12 px-6 border-b-4 border-red-600 shadow-2xl overflow-hidden">
+                <section class="relative bg-zinc-900 py-12 px-6 border-b border-zinc-600 shadow-2xl overflow-hidden">
                     <div class="absolute inset-0 opacity-15 pointer-events-none">
                         <div class="absolute -top-48 -left-48 w-[600px] h-[600px] bg-red-900 rounded-full blur-[150px]">
                         </div>
@@ -13,7 +13,7 @@
                     </div>
 
                     <div class="max-w-4xl mx-auto text-center relative z-10">
-                        <h1 class="text-4xl md:text-6xl mb-6 tracking-tighter italic font-bold">A Legacy Since 1901</h1>
+                        <h1 class="text-4xl md:text-6xl mb-6 tracking-tighter italic">A Legacy Since 1901</h1>
                         <p class="text-red-600 tracking-[0.5em] uppercase text-[10px] md:text-xs font-sans font-black">
                             The Heritage of Prayagraj
                         </p>
@@ -22,7 +22,7 @@
 
                 <div class="max-w-4xl mx-auto px-6 mt-20">
                     <a href="javascript:void(0)" onclick="history.back()"
-                        class="group text-zinc-500 hover:text-white transition-all text-[11px] font-sans font-bold uppercase tracking-[0.2em] flex items-center gap-2">
+                        class="group text-zinc-500 hover:text-white transition-all text-[11px] font-sans font-bold uppercase tracking-[0.2em] flex items-center gap-2 mb-6">
                         <i class="ri-arrow-left-line group-hover:-translate-x-1 transition-transform"></i>
                         <span>Back</span>
                     </a>
@@ -94,7 +94,7 @@
                                                 onsubmit="return confirm('Excise this record from the permanent archives?')">
                                                 <button
                                                     class="text-red-800 text-[9px] font-black uppercase hover:text-red-500 transition-colors flex items-center gap-1">
-                                                    <i class="ri-delete-bin-7-line"></i> Purge Record
+                                                    <i class="ri-delete-bin-7-line"></i> Delete Record
                                                 </button>
                                             </form>
                                         </div>
@@ -115,6 +115,9 @@
                                         </div>
                                         <% } %>
                     </div>
+                    <p class="text-zinc-400 block text-center font-sans text-[9px] uppercase tracking-widest font-bold">
+                        <i class="ri-shield-flash-line"></i> Records Maintained by the Admins
+                    </p>
 
                     <% if (locals.user && (user.role==='warden' || user.role==='admin' )) { %>
                         <a href="/admin/scholars/new"
@@ -123,11 +126,6 @@
                         </a>
                         <% } %>
 
-                            <div class="mt-32 border-t border-zinc-900 pt-12 text-center pb-20">
-                                <p class="text-zinc-600 font-sans text-[9px] uppercase tracking-[0.5em] font-bold">
-                                    Archives Protected & Maintained by the Warden Desk
-                                </p>
-                            </div>
                 </section>
             </main>
 

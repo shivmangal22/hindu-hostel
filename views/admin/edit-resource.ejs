@@ -7,21 +7,19 @@
                 <div class="bg-zinc-900 w-full max-w-xl rounded-2xl shadow-2xl border border-zinc-800 overflow-hidden">
                     <div class="h-1.5 bg-emerald-700 w-full"></div>
                     <a href="javascript:void(0)" onclick="history.back()"
-                        class="group text-zinc-500 hover:text-white transition-all text-[11px] font-sans font-bold uppercase tracking-[0.2em] flex items-center gap-2">
+                        class="group text-zinc-500 hover:text-white transition-all text-[11px] font-sans font-bold uppercase tracking-[0.2em] flex items-center gap-2 m-6">
                         <i class="ri-arrow-left-line group-hover:-translate-x-1 transition-transform"></i>
                         <span>Back</span>
                     </a>
 
                     <div class="p-10 border-b border-zinc-800 bg-zinc-950/30">
-                        <h2 class="text-3xl text-white font-bold">Subject Dispatch</h2>
-                        <p class="text-zinc-400 text-[10px] font-bold uppercase tracking-widest mt-1 font-sans">Index
-                            materials by subject name directly</p>
+                        <h2 class="text-3xl text-white font-bold">Edit Subject</h2>
                     </div>
 
                     <form action="/admin/resources/edit/<%= resource._id %>" method="POST"
                         class="p-10 space-y-8 font-sans">
                         <div>
-                            <label class="block text-[10px] font-bold uppercase text-zinc-400 mb-2 tracking-widest">Full
+                            <label class="block text-[10px] font-bold uppercase text-zinc-400 mb-2 tracking-widest">Edit
                                 Subject Name</label>
                             <input type="text" name="subject" required
                                 class="w-full bg-zinc-950 border border-zinc-800 rounded-xl py-4 px-4 text-white placeholder:text-zinc-400 focus:border-emerald-700 outline-none transition-all"
@@ -29,14 +27,16 @@
                         </div>
 
                         <div class="space-y-5">
-                            <div class="text-zinc-500 text-[9px] mb-2 uppercase">Separate multiple links
+                            <div class="text-zinc-500 font-bold text-[9px] mb-2 uppercase">Separate multiple links
                                 with commas
                                 <span class="lowercase"> (e.g.,
                                     https://link1.com,
                                     https://link2.com)</span>
                             </div>
                             <div>
-                                <label class="block text-[10px] font-bold uppercase text-zinc-400 tracking-widest">Study
+                                <label
+                                    class="block text-[10px] font-bold uppercase text-zinc-400 tracking-widest">Update
+                                    Study
                                     Notes
                                     Link</label>
                                 <input type="url" name="studyMaterial"
@@ -45,7 +45,8 @@
                             </div>
                             <div>
                                 <label
-                                    class="block text-[10px] font-bold uppercase text-zinc-400 mb-2 tracking-widest">Reference
+                                    class="block text-[10px] font-bold uppercase text-zinc-400 mb-2 tracking-widest">Update
+                                    Reference
                                     Books/Resources</label>
                                 <input type="url" name="resources"
                                     class="w-full bg-zinc-950 border border-zinc-800 rounded-xl py-4 px-4 text-white placeholder:text-zinc-400 focus:border-emerald-700 outline-none transition-all"
@@ -53,7 +54,8 @@
                             </div>
                             <div>
                                 <label
-                                    class="block text-[10px] font-bold uppercase text-zinc-400 mb-2 tracking-widest">Previous
+                                    class="block text-[10px] font-bold uppercase text-zinc-400 mb-2 tracking-widest">Update
+                                    Previous
                                     Year
                                     Question Papers</label>
                                 <input type="url" name="previousPapers"
@@ -64,7 +66,7 @@
 
                         <button type="submit"
                             class="w-full bg-emerald-500 text-white font-bold py-3 rounded-xl hover:text-black transition-all duration-500 text-[12px] uppercase shadow-lg shadow-red-950/20">
-                            Add Subject
+                            Update Subject
                         </button>
                     </form>
                 </div>

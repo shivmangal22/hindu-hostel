@@ -17,7 +17,7 @@
 
                                     <a href="/login"
                                         class="btn-hostel-red font-bold text-sm tracking-widest flex items-center gap-2 mx-auto w-fit px-10 py-4 shadow-[0_0_20px_rgba(185,28,28,0.3)] hover:shadow-red-700/50 transition-all">
-                                        <i class="ri-door-open-line"></i> ENTER PORTAL
+                                        <i class="ri-login-box-line"></i> LOGIN
                                     </a>
                                 </div>
 
@@ -82,9 +82,9 @@
                                         class="text-[10px] font-bold uppercase tracking-widest text-zinc-400 group-hover:text-white">Helpdesk</span>
                                 </a>
                                 <a href="/hostel-events"
-                                    class="flex flex-col items-center justify-center p-8 bg-zinc-900/50 border border-zinc-800 rounded-2xl hover:border-zinc-400 transition-all group shadow-xl">
+                                    class="flex flex-col items-center justify-center p-8 bg-zinc-900/50 border border-zinc-800 rounded-2xl hover:border-purple-500 transition-all group shadow-xl">
                                     <i
-                                        class="ri-calendar-event-line text-3xl text-zinc-100 mb-3 group-hover:scale-110 transition-transform"></i>
+                                        class="ri-calendar-event-line text-3xl text-purple-500 mb-3 group-hover:scale-110 transition-transform"></i>
                                     <span
                                         class="text-[10px] font-bold uppercase tracking-widest text-zinc-400 group-hover:text-white">Events</span>
                                 </a>
@@ -100,7 +100,7 @@
                                     <i
                                         class="ri-broadcast-line text-3xl text-orange-400 mb-3 group-hover:scale-110 transition-transform"></i>
                                     <span
-                                        class="text-[10px] font-bold uppercase tracking-widest text-zinc-400 group-hover:text-white">Bulletin</span>
+                                        class="text-[10px] font-bold uppercase tracking-widest text-zinc-400 group-hover:text-white">Bulletins</span>
                                 </a>
                                 <a href="/student/complaints"
                                     class="flex flex-col items-center justify-center p-8 bg-zinc-900/50 border border-zinc-800 rounded-2xl hover:border-red-700 transition-all group shadow-xl">
@@ -110,12 +110,19 @@
                                         class="text-[10px] font-bold uppercase tracking-widest text-zinc-400 group-hover:text-white">Complaints</span>
                                 </a>
 
-                                <a href="/history"
+                                <a href="/scholars"
                                     class="flex flex-col items-center justify-center p-8 bg-zinc-900/50 border border-zinc-800 rounded-2xl hover:border-yellow-600 transition-all group shadow-xl">
                                     <i
-                                        class="ri-history-line text-3xl text-yellow-500 mb-3 group-hover:scale-110 transition-transform"></i>
+                                        class="ri-honour-line text-3xl text-yellow-500 mb-3 group-hover:scale-110 transition-transform"></i>
                                     <span
-                                        class="text-[10px] font-bold uppercase tracking-widest text-zinc-400 group-hover:text-white">History</span>
+                                        class="text-[10px] font-bold uppercase tracking-widest text-zinc-400 group-hover:text-white">Scholars</span>
+                                </a>
+                                <a href="#feedbacks"
+                                    class="flex flex-col items-center justify-center p-8 bg-zinc-900/50 border border-zinc-800 rounded-2xl hover:border-zinc-300 transition-all group shadow-xl">
+                                    <i
+                                        class="ri-feedback-line text-3xl text-zinc-100 mb-3 group-hover:scale-110 transition-transform"></i>
+                                    <span
+                                        class="text-[10px] font-bold uppercase tracking-widest text-zinc-400 group-hover:text-white">Feedback</span>
                                 </a>
                             </div>
                         </section>
@@ -125,70 +132,93 @@
             </main>
 
             <% if (locals.user) { %>
-                <section id="bulletins" class="py-24 bg-zinc-950 px-6 overflow-hidden">
-                    <div class="max-w-6xl mx-auto">
-                        <div class="flex items-center justify-between mb-12 border-b border-zinc-400 pb-6">
+
+                <section id="bulletins" class="py-6 bg-zinc-950 px-4 overflow-hidden">
+                    <div class="max-w-6xl mx-auto py-12">
+                        <div class="flex flex-wrap items-end justify-between mb-12 border-b border-zinc-800 pb-8 gap-4">
                             <div>
-                                <h2 class="text-3xl md:text-4xl font-serif text-white tracking-tighter"> <i
-                                        class="ri-broadcast-line text-red-500 md:hidden"></i> The Bulletin
-                                    Board </h2>
-                                <p class="text-red-700 font-sans font-bold text-[10px] uppercase tracking-[0.3em] mt-1">
-                                    Institutional &
-                                    Residential Updates</p>
+                                <div class="flex items-center gap-4 mb-2">
+                                    <h2 class="text-3xl md:text-5xl font-serif text-white tracking-tighter italic">
+                                        Notice Board
+                                    </h2>
+                                    <i class="ri-broadcast-line text-red-600 text-3xl"></i>
+                                </div>
+                                <p class="text-red-500 font-sans font-bold text-[10px] uppercase tracking-[0.3em]">
+                                    Institutional & Residential Announcements
+                                </p>
                             </div>
-                            <i class="ri-broadcast-line text-zinc-300 text-5xl hidden md:block"></i>
+
+                            <% if (locals.user && (user.role==='warden' || user.role==='admin' )) { %>
+                                <a href="/admin/dashboard/#announcementModal"
+                                    class="group flex items-center gap-3 bg-zinc-900 border border-zinc-800 px-5 py-2.5 rounded-full hover:border-red-600 transition-all duration-500 shadow-xl">
+                                    <span
+                                        class="text-[9px] font-black uppercase tracking-widest text-zinc-400 group-hover:text-white transition-colors">
+                                        Add New
+                                    </span>
+                                    <div
+                                        class="w-8 h-8 rounded-full bg-red-950/30 border border-red-900/50 flex items-center justify-center text-red-500 group-hover:bg-red-600 group-hover:text-white transition-all">
+                                        <i class="ri-add-line"></i>
+                                    </div>
+                                </a>
+                                <% } %>
                         </div>
+
                         <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
                             <% if (typeof announcements !=='undefined' && announcements.length> 0) { %>
                                 <% announcements.forEach(item=> { %>
                                     <div
-                                        class="group relative bg-zinc-900/40 border border-zinc-800 p-8 rounded-3xl hover:border-emerald-700 transition-all duration-500 hover:bg-zinc-900 transition-all duration-500 hover:shadow-[0_0_30px_rgba(0,0,0,0.5)] overflow-hidden">
+                                        class="group relative bg-zinc-900/30 border border-zinc-800 p-8 rounded-[2rem] hover:border-zinc-600 hover:bg-zinc-900/50 transition-all duration-500 overflow-hidden shadow-2xl">
 
-                                        <div class="absolute -right-10 -top-10 w-32 h-32 blur-[80px] opacity-10 transition-opacity group-hover:opacity-20 
-                                            <%= item.category === 'College' ? 'bg-blue-500' : 'bg-red-500' %>"></div>
+                                        <div class="absolute -right-16 -top-16 w-48 h-48 blur-[100px] opacity-10 transition-opacity group-hover:opacity-20 
+                                            <%= item.category === 'College' ? 'bg-blue-600' : 'bg-red-600' %>"></div>
 
-                                        <div class="flex items-center justify-between mb-6 relative z-10">
+                                        <div class="flex items-center justify-between mb-8 relative z-10">
                                             <div class="flex items-center gap-3">
                                                 <span
-                                                    class="inline-block w-2 h-2 rounded-full animate-pulse <%= item.category === 'College' ? 'bg-blue-500' : 'bg-red-500' %>"></span>
+                                                    class="inline-block w-1.5 h-1.5 rounded-full animate-pulse <%= item.category === 'College' ? 'bg-blue-500 shadow-[0_0_10px_#3b82f6]' : 'bg-red-500 shadow-[0_0_10px_#ef4444]' %>"></span>
                                                 <span
-                                                    class="text-[10px] font-bold font-sans uppercase tracking-[0.2em] <%= item.category === 'College' ? 'text-blue-400' : 'text-red-500' %>">
+                                                    class="text-[9px] font-black font-sans uppercase tracking-[0.3em] <%= item.category === 'College' ? 'text-blue-400' : 'text-red-500' %>">
                                                     <%= item.category %>
                                                 </span>
                                             </div>
 
                                             <span
-                                                class="text-white font-mono text-[11px] bg-zinc-950/50 px-3 py-1 rounded-full border-2 border-orange-300">
+                                                class="text-zinc-400 font-mono text-[10px] bg-zinc-950 border border-zinc-800 px-4 py-1 rounded-full uppercase tracking-widest">
                                                 <%= new Date(item.createdAt).toLocaleDateString('en-GB', {
                                                     day: '2-digit' , month: 'short' }) %>
                                             </span>
                                         </div>
 
                                         <h4
-                                            class="text-xl text-stone-100 mb-4 italic font-serif leading-snug group-hover:text-white transition-colors">
+                                            class="text-xl md:text-2xl text-stone-200 mb-8 italic font-serif leading-relaxed group-hover:text-white transition-colors">
                                             "<%= item.content %>"
                                         </h4>
 
-                                        <div class="flex items-center justify-between mt-6">
+                                        <div
+                                            class="flex items-center justify-between mt-auto pt-6 border-t border-zinc-800/50">
                                             <% if (item.link) { %>
                                                 <a href="<%= item.link %>" target="_blank"
-                                                    class="inline-flex items-center gap-2 text-[10px] font-bold text-zinc-400 hover:text-white uppercase tracking-widest transition-all group/link">
-                                                    <i
-                                                        class="ri-external-link-line text-blue-500 group-hover/link:rotate-12 transition-transform"></i>
+                                                    class="inline-flex items-center gap-3 text-[10px] font-bold text-zinc-500 hover:text-white uppercase tracking-widest transition-all group/link">
+                                                    <div
+                                                        class="w-8 h-8 rounded-lg bg-zinc-950 border border-zinc-800 flex items-center justify-center group-hover/link:border-blue-600 transition-colors">
+                                                        <i class="ri-external-link-line text-blue-500"></i>
+                                                    </div>
                                                     Visit Link
                                                 </a>
                                                 <% } else { %>
-                                                    <span></span>
+                                                    <span
+                                                        class="text-[9px] text-zinc-700 uppercase tracking-widest italic font-sans">Formal
+                                                        Notice</span>
                                                     <% } %>
 
                                                         <% if (locals.user && (user.role==='warden' ||
                                                             user.role==='admin' )) { %>
                                                             <form action="/admin/announcements/delete/<%= item._id %>"
                                                                 method="POST"
-                                                                onsubmit="return confirm('Retract this announcement?')">
+                                                                onsubmit="return confirm('Retract this announcement from the public board?')">
                                                                 <button type="submit"
-                                                                    class="text-zinc-700 hover:text-red-500 transition-colors">
-                                                                    <i class="ri-delete-bin-7-line text-lg"></i>
+                                                                    class="w-8 h-8 rounded-lg bg-zinc-950 border border-zinc-800 text-zinc-700 hover:text-red-500 hover:border-red-900 transition-all">
+                                                                    <i class="ri-delete-bin-7-line text-sm"></i>
                                                                 </button>
                                                             </form>
                                                             <% } %>
@@ -197,45 +227,129 @@
                                     <% }) %>
                                         <% } else { %>
                                             <div
-                                                class="lg:col-span-2 flex flex-col items-center justify-center py-24 border-2 border-dashed border-zinc-800 rounded-3xl bg-zinc-900/10">
-                                                <i class="ri-broadcast-line text-5xl text-zinc-400 mb-4"></i>
+                                                class="lg:col-span-2 flex flex-col items-center justify-center py-16 border-2 border-dashed border-zinc-600 rounded-[3rem] bg-zinc-900/10">
+                                                <i class="ri-broadcast-line text-6xl text-zinc-500 mb-6"></i>
                                                 <p
-                                                    class="text-zinc-500 font-sans text-xs font-bold uppercase tracking-[0.4em]">
-                                                    Silence Here</p>
-                                                <p class="text-zinc-500 text-[10px] mt-2 italic text-center px-6">No new
-                                                    dispatches have been
-                                                    broadcasted by the administration</p>
+                                                    class="text-zinc-400 font-sans text-[10px] font-black uppercase tracking-[0.5em]">
+                                                    Nothing here</p>
+                                                <p
+                                                    class="text-zinc-400 text-[10px] tracking-widest mt-2 text-center px-10">
+                                                    No
+                                                    official
+                                                    announcements are currently circulating</p>
                                             </div>
                                             <% } %>
                         </div>
                     </div>
                 </section>
 
-                <section id="resources" class="p-6 bg-zinc-950 text-white border-t border-zinc-900">
-                    <div class="max-w-6xl mx-auto">
-                        <a href="/student/academic-vault" class="group block">
+                <section id="resources" class="p-4 bg-zinc-950 text-white border-t border-zinc-900">
+                    <div class="max-w-6xl mx-auto py-12">
+                        <div class="relative p-[1px] overflow-hidden rounded-3xl group">
                             <div
-                                class="flex items-center justify-between py-12 border-b border-zinc-900 group-hover:border-red-700 transition-colors duration-500 flex-wrap gap-4">
-                                <div class="w-full">
-                                    <h2
-                                        class="text-3xl md:text-4xl font-serif text-white tracking-tighter flex items-center gap-3">
-                                        <i
-                                            class="ri-book-open-line text-red-500 group-hover:scale-110 transition-transform"></i>
-                                        Academic Resources
-                                    </h2>
-                                    <p
-                                        class="text-red-700 font-sans font-bold text-[10px] uppercase tracking-[0.3em] mt-1">
-                                        Study Material, PYQs & Resources
-                                    </p>
-                                </div>
-                                <div class="transition-opacity duration-500">
-                                    <span class="text-[10px] font-bold tracking-widest text-blue-500">OPEN VAULT
-                                        <i class="ri-arrow-right-line"></i></span>
-                                </div>
+                                class="absolute inset-[-1000%] animate-[spin_2s_linear_infinite] bg-[conic-gradient(from_90deg_at_50%_50%,#3b82f6_0%,#ef4444_50%,#3b82f6_100%)] duration-500">
                             </div>
-                        </a>
+
+                            <a href="/student/academic-vault" class="relative block bg-zinc-950 rounded-3xl z-10">
+                                <div
+                                    class="flex items-center justify-between p-8 md:p-12 group-hover:bg-zinc-900/50 transition-all duration-500 flex-wrap gap-4 border border-zinc-800 group-hover:border-transparent rounded-3xl">
+                                    <div class="flex-1">
+                                        <div class="flex items-center gap-4 mb-2">
+
+                                            <i class="ri-book-open-line text-2xl text-red"></i>
+                                            <h2
+                                                class="text-3xl md:text-4xl font-serif text-white tracking-tighter italic">
+                                                Academic Resources
+                                            </h2>
+                                        </div>
+                                        <p
+                                            class="text-red-700 font-sans font-bold text-[10px] uppercase tracking-widest">
+                                            Study Material, PYQs & Study Material
+                                        </p>
+                                    </div>
+
+                                    <div class="flex items-center gap-3">
+                                        <span
+                                            class="text-[10px] font-black tracking-[0.2em] text-blue-500 group-hover:text-white transition-colors uppercase">
+                                            Open Vault
+                                        </span>
+                                        <div
+                                            class="w-8 h-8 rounded-full bg-blue-900/20 border border-blue-900/30 flex items-center justify-center text-blue-500 group-hover:bg-blue-600 group-hover:text-white transition-all">
+                                            <i class="ri-arrow-right-line"></i>
+                                        </div>
+                                    </div>
+                                </div>
+                            </a>
+                        </div>
                     </div>
                 </section>
+
+                <section id="feedbacks" class="relative py-6 bg-zinc-950 text-white border-t border-zinc-900">
+                    <div class="max-w-6xl mx-auto py-12 px-2">
+
+                        <div class="relative z-10">
+                            <div class="flex items-center gap-6 mb-10">
+                                <div
+                                    class="w-14 h-14 rounded-2xl bg-zinc-950 border border-zinc-800 flex items-center justify-center text-red-600 shadow-xl group-hover:border-red-900/50 transition-colors duration-500">
+                                    <i class="ri-feedback-line text-3xl"></i>
+                                </div>
+                                <div>
+                                    <h3 class="text-3xl font-serif italic text-white tracking-tighter">
+                                        Feedback</h3>
+                                    <p
+                                        class="text-[9px] text-red-500 uppercase tracking-[0.2em] mt-1 font-sans font-bold">
+                                        Help us refine
+                                        the digital experience</p>
+                                </div>
+                            </div>
+
+                            <form action="/student/feedback/submit" method="POST" class="space-y-10">
+                                <div>
+                                    <label
+                                        class="block text-[10px] font-black text-center uppercase text-yellow-500 mb-5 tracking-[0.2em] ml-1">Experience</label>
+                                    <div class="flex flex-wrap justify-center items-center gap-2">
+                                        <% [1,2,3,4,5].forEach(num=> { %>
+                                            <label class="cursor-pointer">
+                                                <input type="radio" name="rating" value="<%= num %>" class="hidden peer"
+                                                    <%=num===5 ? 'checked' : '' %>>
+
+                                                <div class="w-12 h-12 rounded-full border border-zinc-700 bg-zinc-950/50 flex flex-col items-center justify-center transition-all duration-300
+                                                    peer-checked:border-yellow-600 peer-checked:bg-yellow-700/30 peer-checked:text-yellow-500
+                                                    hover:border-zinc-500 text-zinc-500"> <span
+                                                        class="text-xs font-black tracking-tighter">
+                                                        <%= num %>
+                                                            <i
+                                                                class="ri-star-fill text-[12px] mt-1 text-yellow-600"></i>
+                                                    </span>
+                                                </div>
+                                            </label>
+                                            <% }) %>
+                                    </div>
+                                </div>
+                                <div class="relative">
+                                    <label
+                                        class="block text-[10px] font-black uppercase text-zinc-400 mb-3 tracking-[0.2em] ml-1">Detailed
+                                        Review</label>
+                                    <textarea name="content" required rows="4" maxlength="400" style="resize: none;"
+                                        class="w-full bg-zinc-950/80 border border-zinc-800 rounded-[2rem] p-6 text-zinc-300 focus:border-red-700 outline-none transition-all placeholder:text-zinc-500 font-sans leading-relaxed text-sm shadow-inner"
+                                        placeholder="Share your thoughts on the architecture, speed, or utility... (Limit 400 characters)"></textarea>
+                                </div>
+                                <div class="w-full flex justify-center items-center">
+                                    <button type="submit"
+                                        class="group relative w-fit overflow-hidden rounded-xl bg-red-700 px-4 py-3 transition-all duration-500 active:scale-[0.98]">
+                                        <div class="relative z-10 flex items-center justify-center gap-3">
+                                            <span
+                                                class="text-zinc-950 font-black text-[11px] uppercase tracking-widest group-hover:text-white transition-colors">Submit</span>
+                                            <i
+                                                class="ri-send-plane-2-line text-zinc-950 group-hover:text-white group-hover:translate-x-1 transition-all"></i>
+                                        </div>
+                                    </button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </section>
+
                 <% } %>
 
                     <section class="py-32 bg-zinc-950 px-6 border-t border-zinc-900 relative overflow-hidden">
@@ -255,8 +369,8 @@
                                     <h3 class="font-serif text-xl mb-3 text-white">The Century Legacy</h3>
                                     <p class="text-stone-400 text-xs leading-relaxed mb-6">Explore 125 years of
                                         institutional pride and
-                                        alumni leadership archives.</p>
-                                    <a href="/history"
+                                        alumni leadership.</p>
+                                    <a href="/scholars"
                                         class="mt-auto text-red-500 text-[9px] font-bold uppercase tracking-widest opacity-0 group-hover:opacity-100 transition-all">Explore
                                         <i class="ri-arrow-right-line"></i></a>
                                 </div>
@@ -296,7 +410,7 @@
                                         residential maintenance requests.</p>
                                     <a href="/student/complaints"
                                         class="mt-auto text-orange-500 text-[9px] font-bold uppercase tracking-widest opacity-0 group-hover:opacity-100 transition-all">File
-                                        Request <i class="ri-arrow-right-line"></i></a>
+                                        Complaint <i class="ri-arrow-right-line"></i></a>
                                 </div>
 
                                 <div
@@ -309,17 +423,45 @@
                                             <i class="ri-notification-3-line text-blue-500 text-2xl"></i>
                                         </div>
                                     </div>
-                                    <h3 class="font-serif text-xl mb-3 text-white">Instant Intelligence</h3>
-                                    <p class="text-stone-400 text-xs leading-relaxed mb-6">Stay synchronized with the
+                                    <h3 class="font-serif text-xl mb-3 text-white">Instant Updates</h3>
+                                    <p class="text-stone-400 text-xs leading-relaxed mb-6">Stay synchronized with
+                                        the
                                         pulse of University
-                                        news and mess schedules.</p>
-                                    <a href="#bulletins"
-                                        class="mt-auto text-blue-500 text-[9px] font-bold uppercase tracking-widest opacity-0 group-hover:opacity-100 transition-all">View
-                                        Notices <i class="ri-arrow-right-line"></i></a>
+                                        and hostel news and events.</p>
+                                    <% if (locals.user) { %>
+                                        <a href="#bulletins"
+                                            class="mt-auto text-blue-500 text-[9px] font-bold uppercase tracking-widest opacity-0 group-hover:opacity-100 transition-all">View
+                                            Notices <i class="ri-arrow-right-line"></i></a>
+                                        <% } %>
                                 </div>
+
+
 
                             </div>
                         </div>
                     </section>
-
+                    <div class="bg-zinc-950">
+                        <div id="installContainer"
+                            class="hidden m-4 p-6 rounded-[2rem] bg-zinc-900/40 border border-red-800 flex items-center justify-between gap-4 group flex-wrap">
+                            <div class="flex items-center gap-4">
+                                <div
+                                    class="w-12 h-12 hidden md:flex rounded-2xl bg-zinc-950 border border-zinc-800 flex items-center justify-center text-red-600 shadow-xl">
+                                    <i class="ri-download-cloud-2-line text-2xl"></i>
+                                </div>
+                                <div>
+                                    <h4 class="text-[10px] font-bold text-red-500 uppercase tracking-widest">Install
+                                        Hindu
+                                        Hostel App
+                                    </h4>
+                                    <p class="text-[9px] text-zinc-500 uppercase tracking-widest mt-1">Direct access
+                                        from
+                                        your home screen</p>
+                                </div>
+                            </div>
+                            <button id="installBtn"
+                                class="bg-white text-zinc-950 px-6 py-2 rounded-xl text-[10px] font-black uppercase tracking-widest hover:bg-red-700 hover:text-white transition-all mt-2">
+                                <i class="ri-download-cloud-2-line"></i> Install
+                            </button>
+                        </div>
+                    </div>
                     <%- include('partials/footer') %>

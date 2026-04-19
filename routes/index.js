@@ -11,23 +11,19 @@ const Announcement = require("../models/Announcement");
 const Resource = require("../models/Resource");
 const Scholar = require("../models/Scholar");
 const Essential = require("../models/Essential");
+const Review = require("../models/Review");
 
 router.get("/", async (req, res) => {
   try {
-    const announcements = await Announcement.find().sort("-createdAt").limit(4);
+    const announcements = await Announcement.find().sort({ createdAt: -1 });
 
     res.render("index", {
       title: "Hindu Hostel | Home",
-      hostelName: "Hindu Hostel, Prayagraj",
-      announcements: announcements,
+      announcements,
     });
   } catch (err) {
-    console.error("Home Route Error:", err);
-    res.render("index", {
-      title: "Hindu Hostel | Home",
-      hostelName: "Hindu Hostel, Prayagraj",
-      announcements: [],
-    });
+    console.error(err);
+    res.status(500).send("Server Error");
   }
 });
 
@@ -56,7 +52,7 @@ router.get("/student/academic-vault", isLoggedIn, async (req, res) => {
   }
 });
 
-router.get("/history", async (req, res) => {
+router.get("/scholars", async (req, res) => {
   try {
     const scholars = await Scholar.find().sort({ name: 1 });
     res.render("history", {
@@ -119,7 +115,7 @@ router.get("/verify/:token", async (req, res) => {
     if (!user) {
       req.flash(
         "error_msg",
-        "Link expired or invalid. Please contact the Warden.",
+        "Link expired or invalid. Please contact the Warden or Admin.",
       );
       return res.redirect("/login");
     }
@@ -172,7 +168,7 @@ router.post("/activate-account", async (req, res) => {
 });
 
 router.get("/forgot-password", (req, res) => {
-  res.render("forgot-password", { title: "Reset Access" });
+  res.render("forgot-password", { title: "Reset Password" });
 });
 
 router.post("/forgot-password", async (req, res) => {
@@ -243,7 +239,7 @@ router.post("/reset-password/:token", async (req, res) => {
     user.resetPasswordExpires = undefined;
     await user.save();
 
-    req.flash("success_msg", "Password reset successful. You may now login.");
+    req.flash("success_msg", "Password reset successful. Log in to continue.");
     res.redirect("/login");
   } catch (err) {
     res.redirect("back");

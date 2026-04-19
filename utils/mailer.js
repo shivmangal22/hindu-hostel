@@ -30,13 +30,7 @@ const sendEmail = async (toEmail, subject, htmlBody) => {
         accept: "application/json",
       },
     });
-
-    console.log(`✅ Email sent: ${subject}`);
   } catch (error) {
-    console.error(
-      "❌ Mailer Error:",
-      error.response ? error.response.data : error.message,
-    );
     throw error;
   }
 };
