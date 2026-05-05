@@ -12,6 +12,8 @@ const Resource = require("../models/Resource");
 const Scholar = require("../models/Scholar");
 const Essential = require("../models/Essential");
 const Review = require("../models/Review");
+const { GoogleGenerativeAI } = require("@google/generative-ai");
+const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
 
 router.get("/", async (req, res) => {
   try {
@@ -24,6 +26,38 @@ router.get("/", async (req, res) => {
   } catch (err) {
     console.error(err);
     res.status(500).send("Server Error");
+  }
+});
+
+const model = genAI.getGenerativeModel({
+  model: "gemini-3.1-flash-lite-preview",
+});
+
+router.post("/chat", async (req, res) => {
+  try {
+    const { message } = req.body;
+
+    const prompt = `System: You are the "HH Assistant," the digital caretaker of Hindu Hostel (Estd. 1901), University of Allahabad.
+        Your tone is professional, institutional, and slightly italic/formal, matching the portal's aesthetic.
+        Rules:
+        1. Always refer to users as "Resident."
+        2. If asked about complaints, tell them to use the "Complaints" section.
+        3. If asked about website or portal, tell them to conatct admins or visit "https://hindu-hostel.onrender.com".
+        4. Your knowledge is focused on hostel life, academics at UoA, and Allahabad (Prayagraj) geography.
+        5. Keep responses concise (under 3 sentences) to fit the mobile UI and don't use font formating like bold or italics.
+        6. If asked for core developer, tell them the name 'Shiv Mangal Singh - B.Tech. 2022-26 Batch'.
+        Resident says: ${message}`;
+
+    const result = await model.generateContent(prompt);
+    const response = await result.response;
+    const text = response.text();
+
+    res.json({ reply: text });
+  } catch (error) {
+    console.error("CHAT ERROR:", error);
+    res.status(500).json({
+      reply: "Server Error: System recalibrating!",
+    });
   }
 });
 

@@ -105,3 +105,63 @@ textarea,
 .selectable-text {
   user-select: text;
 }
+
+.custom-scrollbar::-webkit-scrollbar {
+  width: 4px;
+}
+.custom-scrollbar::-webkit-scrollbar-track {
+  background: transparent;
+}
+.custom-scrollbar::-webkit-scrollbar-thumb {
+  background: #27272a;
+  border-radius: 10px;
+}
+
+#chatInterface.active {
+  opacity: 1;
+  pointer-events: auto;
+  transform: translateY(0);
+}
+
+@media (max-width: 640px) {
+  #chatInterface.active {
+    transform: translateY(0) !important;
+    opacity: 1 !important;
+  }
+}
+
+#chatMessages {
+  padding-bottom: env(safe-area-inset-bottom);
+}
+
+@media (max-width: 350px) {
+  #chatInterface {
+    padding: 4px;
+  }
+  #chatMessages {
+    padding: 1rem;
+  }
+}
+
+@media (max-width: 640px) {
+  #chatInterface {
+    height: 100dvh !important;
+    width: 100vw !important;
+    border-radius: 0 !important;
+  }
+
+  #chatInterface.active {
+    transform: translateY(0) !important;
+    opacity: 1 !important;
+  }
+}
+
+#chatInput {
+  font-size: 16px !important;
+}
+
+#chatTriggerWrapper.hide-on-scroll {
+  transform: translateY(150%) scale(0.5);
+  opacity: 0;
+  pointer-events: none;
+}

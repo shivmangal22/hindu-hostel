@@ -464,4 +464,80 @@
                             </button>
                         </div>
                     </div>
+
+                    <div id="chatTriggerWrapper"
+                        class="fixed bottom-8 right-8 z-[100] group transition-all duration-300">
+                        <div class="relative p-[2px] overflow-hidden rounded-2xl">
+                            <div
+                                class="absolute inset-[-1000%] animate-[spin_3s_linear_infinite] bg-[conic-gradient(from_90deg_at_50%_50%,#10b981_0%,#000000_50%,#10b981_100%)]">
+                            </div>
+
+                            <button id="chatTrigger"
+                                class="relative w-14 h-14 bg-zinc-950 rounded-2xl flex items-center justify-center text-emerald-500 hover:bg-zinc-900 transition-colors z-10">
+                                <i class="ri-robot-2-line text-2xl group-hover:rotate-12 transition-transform"></i>
+
+                                <span
+                                    class="absolute top-2 right-2 w-2.5 h-2.5 bg-red-600 rounded-full border-2 border-zinc-950 animate-pulse"></span>
+                            </button>
+                        </div>
+                    </div>
+
+                    <div id="chatInterface"
+                        class="fixed inset-0 sm:inset-auto sm:bottom-28 sm:right-8 w-full sm:w-[380px] h-[100dvh] sm:h-[550px] bg-zinc-950/95 backdrop-blur-2xl border-t sm:border border-zinc-800 rounded-t-[2.5rem] sm:rounded-[2.5rem] shadow-2xl z-[9999] flex flex-col translate-y-full opacity-0 pointer-events-none transition-all duration-500 ease-in-out">
+
+                        <div class="sm:hidden w-full flex justify-center py-3">
+                            <div class="w-12 h-1.5 bg-zinc-800 rounded-full"></div>
+                        </div>
+
+                        <div
+                            class="px-6 py-4 border-b border-zinc-800 bg-zinc-900/50 flex items-center justify-between">
+                            <div class="flex items-center gap-3">
+                                <div
+                                    class="w-8 h-8 rounded-lg bg-emerald-900/20 border border-emerald-900/50 flex items-center justify-center text-emerald-500">
+                                    <i class="ri-command-fill text-lg"></i>
+                                </div>
+                                <h4 class="text-white font-bold text-xs tracking-tight italic">HH Assistant</h4>
+                            </div>
+                            <button id="closeChat"
+                                class="w-8 h-8 flex items-center justify-center text-zinc-500 hover:text-white transition-colors bg-zinc-800 rounded-full">
+                                <i class="ri-close-line text-xl"></i>
+                            </button>
+                        </div>
+
+                        <div id="chatMessages" class="flex-grow p-6 overflow-y-auto space-y-4 custom-scrollbar">
+                            <div class="flex flex-col gap-2">
+                                <div
+                                    class="bg-zinc-900/50 border border-zinc-800 p-4 rounded-2xl rounded-tl-none max-w-[85%]">
+                                    <p class="text-xs text-zinc-300 leading-relaxed font-sans italic">
+                                        Welcome, Resident. I am the Hindu Hostel digital concierge. How may I assist you
+                                        today?
+                                    </p>
+                                </div>
+                                <span class="text-[8px] text-zinc-600 uppercase tracking-widest ml-1">HH Bot</span>
+                            </div>
+                            <div id="typingIndicator" class="hidden flex flex-col gap-2">
+                                <div
+                                    class="bg-zinc-900/50 border border-zinc-800 p-4 rounded-2xl rounded-tl-none w-16 flex justify-center gap-1">
+                                    <span class="w-1.5 h-1.5 bg-emerald-500 rounded-full animate-bounce"></span>
+                                    <span
+                                        class="w-1.5 h-1.5 bg-emerald-500 rounded-full animate-bounce [animation-delay:0.2s]"></span>
+                                    <span
+                                        class="w-1.5 h-1.5 bg-emerald-500 rounded-full animate-bounce [animation-delay:0.4s]"></span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="p-4 bg-zinc-900/30 border-t border-zinc-800">
+                            <form id="chatForm" class="relative">
+                                <input type="text" id="chatInput" placeholder="Ask about essentials, complaints..."
+                                    class="w-full bg-zinc-950 border border-zinc-800 rounded-2xl py-3 pl-4 pr-12 text-xs text-white focus:border-emerald-600 outline-none transition-all placeholder:text-zinc-700">
+                                <button type="submit"
+                                    class="absolute right-2 top-1/2 -translate-y-1/2 w-8 h-8 bg-emerald-600 text-white rounded-xl flex items-center justify-center hover:bg-emerald-500 transition-colors">
+                                    <i class="ri-send-plane-2-line text-sm"></i>
+                                </button>
+                            </form>
+                        </div>
+                    </div>
+
+
                     <%- include('partials/footer') %>
