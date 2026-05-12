@@ -29,7 +29,7 @@ router.get("/", async (req, res) => {
   }
 });
 
-const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
+const model = genAI.getGenerativeModel({ model: "gemini-3.1-flash-lite-preview" });
 
 router.post("/chat", async (req, res) => {
   try {
