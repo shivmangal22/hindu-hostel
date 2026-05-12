@@ -29,9 +29,7 @@ router.get("/", async (req, res) => {
   }
 });
 
-const model = genAI.getGenerativeModel({
-  model: "gemini-3.1-flash-lite-preview",
-});
+const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
 
 router.post("/chat", async (req, res) => {
   try {
@@ -45,7 +43,6 @@ router.post("/chat", async (req, res) => {
         3. If asked about website or portal, tell them to conatct admins or visit "https://hindu-hostel.onrender.com".
         4. Your knowledge is focused on hostel life, academics at UoA, and Allahabad (Prayagraj) geography.
         5. Keep responses concise (under 3 sentences) to fit the mobile UI and don't use font formating like bold or italics.
-        6. If asked for core developer, tell them the name 'Shiv Mangal Singh - B.Tech. 2022-26 Batch'.
         Resident says: ${message}`;
 
     const result = await model.generateContent(prompt);
